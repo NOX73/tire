@@ -148,6 +148,17 @@ module Tire::Search
         end
       end
 
+      context "facet filter" do
+        should "encode filter facet options" do
+          f = Facet.new('foo'){
+            terms :published_on
+            facet_filter :term, :words => 250
+          }.to_hash['foo'][:facet_filter]
+
+          assert_equal( { :term => {:words => 250 }}.to_json, f.to_json)
+        end
+      end
+
     end
 
   end
